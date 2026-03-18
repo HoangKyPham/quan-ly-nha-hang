@@ -1,11 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import envConfig from "@/config";
 import { normalizePath } from "@/lib/utils";
+import envConfig from "../../config";
 
 type CustomOptions = Omit<RequestInit, "method"> & {
   baseUrl?: string | undefined;
 };
+
+type EntityErrorPayload = {
+  message: string
+  errors: {
+    field: string
+    message: string
+  }[]
+}
+
 
 export class HttpError extends Error {
   status: number;
@@ -25,6 +34,16 @@ export class HttpError extends Error {
     super(message);
     this.status = status;
     this.payload = payload;
+  }
+}
+
+export class EntityError extends HttpError {
+  status: 422
+  payload: EntityErrorPayload
+  constructor({ status, payload }: { status: 422; payload: EntityErrorPayload }) {
+    super({ status, payload, message: 'Lỗi thực thể' })
+    this.status = status
+    this.payload = payload
   }
 }
 

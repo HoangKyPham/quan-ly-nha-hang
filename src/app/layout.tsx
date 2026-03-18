@@ -4,13 +4,14 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "sonner";
 import { cn } from "@/lib/utils";
+import AppProvider from "@/components/app-provider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 });
 export const metadata: Metadata = {
-  title: "Big Boy Restaurant",
+  title: "Debistro",
   description: "The best restaurant in the world",
 };
 
@@ -33,7 +34,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <AppProvider>{children}</AppProvider>
           <Toaster />
         </ThemeProvider>
       </body>
