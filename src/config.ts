@@ -17,10 +17,19 @@ const checkEnv = async () => {
 checkEnv()
 
 const configSchema = z.object({
-  PORT: z.coerce.number().default(4000),
+ PORT: z.coerce.number().default(4000),
   DATABASE_URL: z.string(),
+  ACCESS_TOKEN_SECRET: z.string(),
+  ACCESS_TOKEN_EXPIRES_IN: z.string(),
+  GUEST_ACCESS_TOKEN_EXPIRES_IN: z.string(),
+  GUEST_REFRESH_TOKEN_EXPIRES_IN: z.string(),
+  REFRESH_TOKEN_SECRET: z.string(),
+  REFRESH_TOKEN_EXPIRES_IN: z.string(),
+  INITIAL_EMAIL_OWNER: z.string(),
+  INITIAL_PASSWORD_OWNER: z.string(),
   DOMAIN: z.string(),
   PROTOCOL: z.string(),
+  UPLOAD_FOLDER: z.string()
 })
 
 const configServer = configSchema.safeParse(process.env)
