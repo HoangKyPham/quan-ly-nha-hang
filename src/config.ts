@@ -17,7 +17,7 @@ const checkEnv = async () => {
 checkEnv()
 
 const configSchema = z.object({
- PORT: z.coerce.number().default(4000),
+  PORT: z.coerce.number().default(4000),
   DATABASE_URL: z.string(),
   ACCESS_TOKEN_SECRET: z.string(),
   ACCESS_TOKEN_EXPIRES_IN: z.string(),
@@ -33,6 +33,7 @@ const configSchema = z.object({
 })
 
 const configServer = configSchema.safeParse(process.env)
+
 
 if (!configServer.success) {
   console.error(configServer.error.issues)
