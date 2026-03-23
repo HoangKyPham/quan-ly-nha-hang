@@ -17,9 +17,11 @@ import { toast } from "sonner";
 import { useRouter } from "next/dist/client/components/navigation";
 import { handleErrorApi } from "@/lib/utils";
 import { useLoginMutation } from "@/queries/useAuth";
+import { useAppContext } from "@/components/app-provider";
 
 export default function LoginForm() {
   const loginMutation = useLoginMutation()
+  const { setIsAuth } = useAppContext()
   const router = useRouter()
   const form = useForm<LoginBodyType>({
     resolver: zodResolver(LoginBody),
@@ -38,6 +40,7 @@ export default function LoginForm() {
       })
       router.push('/manage/dashboard')
       router.refresh()
+      setIsAuth(true)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       handleErrorApi({
