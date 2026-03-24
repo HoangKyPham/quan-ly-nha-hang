@@ -1,4 +1,5 @@
 "use client";
+import { useAccountQuery } from "@/queries/useAccount";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { createContext, useContext, useLayoutEffect, useState } from "react";
@@ -26,12 +27,15 @@ export const useAppContext = () => {
 };
 
 function Provider({ children }: { children: React.ReactNode }) {
-  const [isAuth, setIsAuth] = useState(false);
-  return (
-    <AppContext.Provider value={{ isAuth, setIsAuth }}>
-      {children}
-    </AppContext.Provider>
-  );
+  const [isAuth, setIsAuth] = useState(false)
+  useAccountQuery({
+    enabled: isAuth
+  })
+  useLayoutEffect(() => {
+    const accessToken = localStorage.getItem('accessToken')
+    setIsAuth(Boolean(accessToken))
+  }, [])
+  return <AppContext.Provider value={{ isAuth, setIsAuth }}>{children}</AppContext.Provider>
 }
 
 export default function AppProvider({
