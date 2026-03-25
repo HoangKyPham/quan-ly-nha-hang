@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import envConfig from "@/config";
 import { normalizePath } from "@/lib/utils";
-import envConfig from "../../config";
 
 type CustomOptions = Omit<RequestInit, "method"> & {
   baseUrl?: string | undefined;
