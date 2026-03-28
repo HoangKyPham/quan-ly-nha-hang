@@ -22,3 +22,5 @@ export const initOwnerAccount = async () => {
         console.log(chalk.green(`Đã tạo tài khoản Owner với email: ${envConfig.INITIAL_EMAIL_OWNER} và mật khẩu: ${envConfig.INITIAL_PASSWORD_OWNER}`))
     }
 }
+
+

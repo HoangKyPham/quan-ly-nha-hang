@@ -9,3 +9,10 @@ export class EntityError extends Error {
         this.fields = fields
     }
 }
+
+export class AuthError extends Error {
+    status : number = 401
+    constructor(message : string) {
+        super(message)
+    }
+}

@@ -1,7 +1,7 @@
 import envConfig from "@/config.js";
 import { TokenType } from "@/constants/type.js";
 import { TokenPayload } from "@/types/jwt.types.js";
-import { createSigner, SignerOptions } from "fast-jwt";
+import { createSigner, createVerifier, SignerOptions } from "fast-jwt";
 import ms, { StringValue } from 'ms'
 
 
@@ -34,4 +34,11 @@ export const signRefreshToken = (
         ...options
     })
     return signSync({...restPayload, tokenType : TokenType.RefreshToken})
+}
+
+export const verifyAccessToken = (token : string) => {
+    const verifySync = createVerifier({
+        key : envConfig.ACCESS_TOKEN_SECRET
+    })
+    return verifySync(token) as TokenPayload
 }

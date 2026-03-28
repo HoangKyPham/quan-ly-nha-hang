@@ -2,6 +2,7 @@ import envConfig from "@/config.js";
 import { initOwnerAccount } from "@/controllers/account.controller.js";
 import validatorCompilerPlugin from "@/plugins/validatorComplier.plugin.js";
 import authRoutes from "@/routes/auth.route.js";
+import fastifyAuth from "@fastify/auth";
 import Fastify from "fastify";
 
 const fastify = Fastify({
@@ -12,12 +13,15 @@ const fastify = Fastify({
 
 const start = async () => {
   try {
-    fastify.register(validatorCompilerPlugin)
+    fastify.register(validatorCompilerPlugin);
+    fastify.register(fastifyAuth, {
+      defaultRelation: "and",
+    });
     fastify.register(authRoutes, {
-      prefix: '/auth'
-    })
+      prefix: "/auth",
+    });
 
-    await initOwnerAccount()
+    await initOwnerAccount();
     await fastify.listen({
       port: envConfig.PORT,
     });

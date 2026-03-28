@@ -55,3 +55,12 @@ export const LoginController = async (body: LoginBodyType) => {
     refreshToken,
   };
 };
+
+export const logoutController = async (refreshToken: string) => {
+  await prisma.refreshToken.delete({
+    where: {
+      token: refreshToken
+    }
+  })
+  return 'Đăng xuất thành công'
+}
