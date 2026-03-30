@@ -1,6 +1,5 @@
-import { LoginController, logoutController} from "@/controllers/auth.controller.js";
+import { LoginController, logoutController, refreshTokenController} from "@/controllers/auth.controller.js";
 import { requireLoginedHook } from "@/hooks/auth.hooks.js";
-import "@fastify/auth";
 import {
   LoginBody,
   LoginBodyType,
@@ -8,6 +7,10 @@ import {
   LoginResType,
   LogoutBody,
   LogoutBodyType,
+  RefreshTokenBody,
+  RefreshTokenBodyType,
+  RefreshTokenRes,
+  RefreshTokenResType,
 } from "@/schemaValidations/auth.schema.js";
 import {
   MessageRes,
@@ -59,5 +62,27 @@ export default async function authRoutes(fastify: FastifyInstance, options: Fast
         message
       })
     }
+  )
+  fastify.post<{
+    Reply : RefreshTokenResType,
+    Body : RefreshTokenBodyType
+  }>(
+    '/refresh-token',
+    {
+      schema : {
+        response : {
+          200 : RefreshTokenRes
+        },
+        body : RefreshTokenBody
+      }
+    },
+    async (request, reply) => {
+      const result = await refreshTokenController(request.body.refreshToken)
+      reply.send({
+        message : "Làm mới token thành công",
+        data : result
+      })
+    }
+
   )
 }

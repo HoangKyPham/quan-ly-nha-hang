@@ -1,10 +1,10 @@
 import envConfig from "@/config.js";
 import prisma from "@/database/index.js";
 import { LoginBodyType } from "@/schemaValidations/auth.schema.js";
-import { RoleType } from "@/types/jwt.types.js";
+import { RoleType, TokenPayload } from "@/types/jwt.types.js";
 import { comparePassword } from "@/utils/crypto.js";
-import { EntityError } from "@/utils/errors.js";
-import { signAccessToken, signRefreshToken } from "@/utils/jwt.js";
+import { AuthError, EntityError } from "@/utils/errors.js";
+import { signAccessToken, signRefreshToken, verifyAccessToken } from "@/utils/jwt.js";
 import { addMilliseconds } from "date-fns";
 import ms, { StringValue } from "ms";
 
@@ -64,3 +64,57 @@ export const logoutController = async (refreshToken: string) => {
   })
   return 'Đăng xuất thành công'
 }
+
+export const refreshTokenController = async (refreshToken: string) => {
+  let decodedToken : TokenPayload
+  try {
+    decodedToken = verifyAccessToken(refreshToken)
+  } catch (error) {
+    throw new AuthError("Refresh token không hợp lệ hoặc đã hết hạn")
+  }
+  const refreshTokenDoc = await prisma.refreshToken.findFirstOrThrow({
+    where : {
+      token : refreshToken,
+    },
+    include : {
+      account : true
+    }
+  })
+
+  const account = refreshTokenDoc.account
+  const newAccessToken = signAccessToken({
+    userId: account.id,
+    role: account.role as RoleType,
+  })
+  // Token Rotation: tạo một refresh token mới và xóa refresh token cũ để tăng cường bảo mật
+  // nhưng vẫn giữ thời gian sống của refresh token mới = refresh token cũ 
+  // tránh việc người dùng bị đăng xuất khi đang sử dụng ứng dụng
+  const newRefreshToken = signRefreshToken(
+    {
+      userId : account.id,
+      role : account.role as RoleType
+    },
+    {
+      expiresIn : decodedToken.exp
+    }
+  )
+  await prisma.refreshToken.delete({
+    where : {
+      token : refreshToken
+    }
+  })
+  await prisma.refreshToken.create({
+    data : {
+      accountId : account.id,
+      token : newRefreshToken,
+      expiresAt : refreshTokenDoc.expiresAt
+    }
+  })
+  return {
+    accessToken : newAccessToken,
+    refreshToken : newRefreshToken
+  }
+
+}
+
+
