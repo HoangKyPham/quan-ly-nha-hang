@@ -1,43 +1,45 @@
-import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google";
+import type { Metadata } from 'next'
+import { Inter as FontSans } from 'next/font/google'
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import { Toaster } from "sonner";
-import { cn } from "@/lib/utils";
-import AppProvider from "@/components/app-provider";
+import { cn } from '@/lib/utils'
+import { ThemeProvider } from '@/components/theme-provider'
+import AppProvider from '@/components/app-provider'
+import { Toaster } from 'sonner'
 
 const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
+  subsets: ['latin'],
+  variable: '--font-sans'
+})
 export const metadata: Metadata = {
-  title: "Debistro",
-  description: "The best restaurant in the world",
-};
+  title: 'DeBistro',
+  description: 'The best restaurant in the world'
+}
 
 export default function RootLayout({
-  children,
+  children
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang='en' suppressHydrationWarning>
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable,
+          'min-h-screen bg-background font-sans antialiased',
+          fontSans.variable
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <AppProvider>{children}</AppProvider>
-          <Toaster />
-        </ThemeProvider>
+        <AppProvider>
+          <ThemeProvider
+            attribute='class'
+            defaultTheme='system'
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+            <Toaster />
+          </ThemeProvider>
+        </AppProvider>
       </body>
     </html>
-  );
+  )
 }

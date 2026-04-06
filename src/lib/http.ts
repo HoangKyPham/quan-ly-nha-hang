@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import envConfig from "@/config";
-import { normalizePath } from "@/lib/utils";
+import { normalizePath, removeTokensFromLocalStorage, setAccessTokenToLocalStorage, setRefreshTokenToLocalStorage } from "@/lib/utils";
 import { LoginResType } from "@/schemaValidations/auth.schema";
 import { redirect } from "next/navigation";
 
@@ -159,16 +159,15 @@ const request = async <Response>(
   if (isClient()) {
     const normalizeUrl = normalizePath(url);
     if (normalizeUrl === "api/auth/login") {
-      const {
-        data: { accessToken, refreshToken },
-      } = payload as LoginResType;
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
+      const {accessToken, refreshToken} = (payload as LoginResType).data
+      setAccessTokenToLocalStorage(accessToken);
+      setRefreshTokenToLocalStorage(refreshToken);
     } else if (normalizeUrl === "api/auth/logout") {
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
+      removeTokensFromLocalStorage()
     }
   }
+
+  return data;
 };
 
 const http = {
