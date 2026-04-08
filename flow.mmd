@@ -1,0 +1,39 @@
+flowchart TD
+  A[User vào app] --> B{Có token trong localStorage?}
+  B -- Không --> C[Chưa auth]
+  B -- Có --> D[AppProvider decode accessToken lấy role]
+
+  C --> E[Đi login]
+  E --> F[POST /api/auth/login hoặc /api/guest/auth/login]
+  F --> G[Lưu accessToken + refreshToken vào localStorage và cookie]
+  G --> H[isAuth = true, vào route private]
+
+  D --> H
+
+  H --> I[Middleware kiểm tra route private]
+  I -->|Không có refreshToken| J[Redirect /login?clearTokens=true]
+  I -->|Có refreshToken nhưng thiếu accessToken| K[Redirect /refresh-token?refreshToken=...&redirect=pathname]
+  I -->|Sai role| L[Redirect /]
+  I -->|Hợp lệ| M[Cho đi tiếp]
+
+  M --> N[RefreshToken component chạy định kỳ]
+  N --> O{Access token gần hết hạn?}
+  O -- Không --> P[Tiếp tục dùng token hiện tại]
+  O -- Có --> Q[Gọi /api/auth/refresh-token hoặc /api/guest/auth/refresh-token]
+  Q --> R{Refresh thành công?}
+  R -- Có --> S[Cập nhật accessToken + refreshToken mới]
+  R -- Không --> T[Clear token, về login]
+
+  K --> U[Trang /refresh-token]
+  U --> V{refreshToken URL == localStorage?}
+  V -- Không --> W[Redirect /]
+  V -- Có --> X[checkAndRefreshToken]
+  X --> Y{Thành công?}
+  Y -- Có --> Z[Push về redirect pathname]
+  Y -- Không --> T
+
+  M --> AA{API trả 401?}
+  AA -- Client --> AB[Gọi /api/auth/logout, clear token, location=/login]
+  AA -- Server --> AC[redirect /logout?accessToken=...]
+  AC --> AD[Trang /logout gọi logout mutation]
+ AD --> AE["setRole(undefined) | clear token | push /login"]

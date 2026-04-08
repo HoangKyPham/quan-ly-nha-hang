@@ -3,10 +3,9 @@ import { useQuery } from "@tanstack/react-query"
 
 
 
-export const useAccountQuery = ({ enabled }: { enabled: boolean }) => {
+export const useAccountMe = () => {
   return useQuery({
-    queryKey: ['account', 'me'],
-    queryFn: accountApiRequest.me,
-    enabled
+    queryKey: ['account-me'],
+    queryFn: accountApiRequest.me
   })
 }
