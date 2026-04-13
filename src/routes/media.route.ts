@@ -1,4 +1,5 @@
 import { uploadImage } from "@/controllers/media.controller.js";
+import { requireLoginedHook } from "@/hooks/auth.hooks.js";
 import {
   UploadImageRes,
   UploadImageResType,
@@ -8,6 +9,8 @@ import { FastifyInstance } from "fastify";
 
 export default async function mediaRoutes(fastify: FastifyInstance) {
   fastify.register(fastifyMultipart);
+  fastify.addHook('preValidation', fastify.auth([requireLoginedHook]))
+
   fastify.post<{ Reply: UploadImageResType }>(
     "/upload",
     {

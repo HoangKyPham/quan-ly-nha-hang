@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client"
 
 
 
@@ -15,4 +16,8 @@ export class AuthError extends Error {
     constructor(message : string) {
         super(message)
     }
+}
+
+export function isPrismaClientKnownRequestError(error: unknown): error is Prisma.PrismaClientKnownRequestError {
+  return error instanceof Prisma.PrismaClientKnownRequestError
 }

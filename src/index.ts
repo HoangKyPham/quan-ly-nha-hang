@@ -2,6 +2,7 @@ import envConfig from "@/config.js";
 import { initOwnerAccount } from "@/controllers/account.controller.js";
 import validatorCompilerPlugin from "@/plugins/validatorComplier.plugin.js";
 import authRoutes from "@/routes/auth.route.js";
+import mediaRoutes from "@/routes/media.route.js";
 import fastifyAuth from "@fastify/auth";
 import Fastify from "fastify";
 
