@@ -20,6 +20,9 @@ const start = async () => {
     fastify.register(authRoutes, {
       prefix: "/auth",
     });
+    fastify.register(mediaRoutes, {
+      prefix: '/media'
+    })
 
     await initOwnerAccount();
     await fastify.listen({
