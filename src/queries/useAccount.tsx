@@ -45,6 +45,18 @@ export const useUpdateAccountMutation = () => {
   })
 }
 
+export const useChangePasswordMutation = () => {
+  return useMutation({
+    mutationFn: accountApiRequest.changePassword
+  })
+}
+
+export const useUpdateMeMutation = () => {
+  return useMutation({
+    mutationFn: accountApiRequest.updateMe
+  })
+}
+
 export const useGetAccount = ({
   id,
   enabled
