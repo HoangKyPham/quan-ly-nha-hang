@@ -1,6 +1,7 @@
 import envConfig from "@/config.js";
 import { initOwnerAccount } from "@/controllers/account.controller.js";
 import validatorCompilerPlugin from "@/plugins/validatorComplier.plugin.js";
+import accountRoutes from "@/routes/account.route.js";
 import authRoutes from "@/routes/auth.route.js";
 import mediaRoutes from "@/routes/media.route.js";
 import fastifyAuth from "@fastify/auth";
@@ -21,6 +22,9 @@ const start = async () => {
     fastify.register(authRoutes, {
       prefix: "/auth",
     });
+    fastify.register(accountRoutes, {
+      prefix: '/accounts'
+    })
     fastify.register(mediaRoutes, {
       prefix: '/media'
     })
