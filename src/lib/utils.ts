@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { EntityError } from "@/lib/http";
 import jwt from "jsonwebtoken";
 import { TokenPayload } from "@/types/jwt.types";
-import { Role } from "@/constants/type";
+import { DishStatus, Role } from "@/constants/type";
 import authApiRequest from "@/apiRequests/auth";
 
 export function cn(...inputs: ClassValue[]) {
@@ -38,6 +38,26 @@ export const handleErrorApi = ({
     });
   }
 };
+
+export const getVietnameseDishStatus = (
+  status: (typeof DishStatus)[keyof typeof DishStatus]
+) => {
+  switch (status) {
+    case DishStatus.Available:
+      return 'Có sẵn'
+    case DishStatus.Unavailable:
+      return 'Không có sẵn'
+    default:
+      return 'Ẩn'
+  }
+}
+
+export const formatCurrency = (number: number) => {
+  return new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND'
+  }).format(number)
+}
 
 export const decodeToken = (token: string) => {
   return jwt.decode(token) as TokenPayload
