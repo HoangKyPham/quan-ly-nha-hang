@@ -3,10 +3,10 @@ import prisma from "@/database/index.js";
 import { LoginBodyType } from "@/schemaValidations/auth.schema.js";
 import { RoleType, TokenPayload } from "@/types/jwt.types.js";
 import { comparePassword } from "@/utils/crypto.js";
+import { parseDuration } from "@/utils/duration.js";
 import { AuthError, EntityError } from "@/utils/errors.js";
 import { signAccessToken, signRefreshToken, verifyAccessToken } from "@/utils/jwt.js";
 import { addMilliseconds } from "date-fns";
-import ms, { StringValue } from "ms";
 
 export const LoginController = async (body: LoginBodyType) => {
   const account = await prisma.account.findUnique({
@@ -39,7 +39,7 @@ export const LoginController = async (body: LoginBodyType) => {
 
   const refreshTokenExpiresAt = addMilliseconds(
     new Date(),
-    ms(envConfig.REFRESH_TOKEN_EXPIRES_IN as StringValue),
+    parseDuration(envConfig.REFRESH_TOKEN_EXPIRES_IN, "REFRESH_TOKEN_EXPIRES_IN"),
   );
 
   await prisma.refreshToken.create({
