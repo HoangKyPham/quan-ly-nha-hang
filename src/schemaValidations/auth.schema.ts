@@ -44,3 +44,11 @@ export const RefreshTokenRes = z.object({
 
 export type RefreshTokenResType = z.TypeOf<typeof RefreshTokenRes>
 
+export const LogoutBody = z
+  .object({
+    refreshToken: z.string()
+  })
+  .strict()
+
+export type LogoutBodyType = z.TypeOf<typeof LogoutBody>
+

@@ -17,6 +17,18 @@ export const DishStatusValues = [
   DishStatus.Hidden
 ] as const
 
+export const TableStatus = {
+  Available: 'Available',
+  Hidden: 'Hidden',
+  Reserved: 'Reserved'
+} as const
+
+export const TableStatusValues = [
+  TableStatus.Available,
+  TableStatus.Hidden,
+  TableStatus.Reserved
+] as const
+
 export const Role = {
     Owner : "Owner",
     Employee : "Employee",
@@ -24,3 +36,19 @@ export const Role = {
 } as const 
 
 export const RoleValues = [Role.Owner, Role.Employee] as const 
+
+export const OrderStatus = {
+  Pending: 'Pending',
+  Processing: 'Processing',
+  Rejected: 'Rejected',
+  Delivered: 'Delivered',
+  Paid: 'Paid'
+} as const
+
+export const OrderStatusValues = [
+  OrderStatus.Pending,
+  OrderStatus.Processing,
+  OrderStatus.Rejected,
+  OrderStatus.Delivered,
+  OrderStatus.Paid
+] as const

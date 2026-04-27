@@ -6,8 +6,9 @@ import { toast } from "sonner";
 import { EntityError } from "@/lib/http";
 import jwt from "jsonwebtoken";
 import { TokenPayload } from "@/types/jwt.types";
-import { DishStatus, Role } from "@/constants/type";
+import { DishStatus, Role, TableStatus } from "@/constants/type";
 import authApiRequest from "@/apiRequests/auth";
+import envConfig from "@/config";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -38,6 +39,19 @@ export const handleErrorApi = ({
     });
   }
 };
+
+export const getVietnameseTableStatus = (
+  status: (typeof TableStatus)[keyof typeof TableStatus]
+) => {
+  switch (status) {
+    case TableStatus.Available:
+      return 'Có sẵn'
+    case TableStatus.Reserved:
+      return 'Đã đặt'
+    default:
+      return 'Ẩn'
+  }
+}
 
 export const getVietnameseDishStatus = (
   status: (typeof DishStatus)[keyof typeof DishStatus]
@@ -124,3 +138,16 @@ export const checkAndRefreshToken = async (params?: {
   }
 
 };
+
+
+export const getTableLink = ({
+  token,
+  tableNumber
+}: {
+  token: string
+  tableNumber: number
+}) => {
+  return (
+    envConfig.NEXT_PUBLIC_URL + '/tables/' + tableNumber + '?token=' + token
+  )
+}
