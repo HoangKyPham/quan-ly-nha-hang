@@ -56,6 +56,7 @@ const menuItems: {
 
 export default function NavItems({ className }: { className?: string }) {
   const { role, setRole } = useAppContext()
+  console.log(role)
   const logoutMutation = useLogoutMutation()
   const router = useRouter()
 

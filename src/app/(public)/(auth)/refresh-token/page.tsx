@@ -1,37 +1,38 @@
-import { checkAndRefreshToken, getRefreshTokenFromLocalStorage } from '@/lib/utils'
-import { useSearchParams } from 'next/navigation'
-import { useRouter } from 'next/router'
-import React, { Suspense, useEffect } from 'react'
+'use client'
 
+import {
+  checkAndRefreshToken,
+  getRefreshTokenFromLocalStorage
+} from '@/lib/utils'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { Suspense, useEffect } from 'react'
 
-function RefreshToken () {
-    const router = useRouter()
-    const searchParams = useSearchParams()
-    const refreshTokenFromURL = searchParams.get('refreshToken')
-    const redirectPathname = searchParams.get('redirect')
-
-    useEffect(() => {
-        if(refreshTokenFromURL && refreshTokenFromURL === getRefreshTokenFromLocalStorage()){
-            checkAndRefreshToken({
-                onSuccess : () => {
-                    router.push(redirectPathname || '/')
-                }
-            })
-        }else {
-            router.push('/login')
+function RefreshToken() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const refreshTokenFromUrl = searchParams.get('refreshToken')
+  const redirectPathname = searchParams.get('redirect')
+  useEffect(() => {
+    if (
+      refreshTokenFromUrl &&
+      refreshTokenFromUrl === getRefreshTokenFromLocalStorage()
+    ) {
+      checkAndRefreshToken({
+        onSuccess: () => {
+          router.push(redirectPathname || '/')
         }
-
-    }, [router, refreshTokenFromURL, redirectPathname])
-
-    return <div>Refresh token...</div>
+      })
+    } else {
+      router.push('/')
+    }
+  }, [router, refreshTokenFromUrl, redirectPathname])
+  return <div>Refresh token....</div>
 }
 
-const RefreshTokenPage = () => {
+export default function RefreshTokenPage() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <RefreshToken />
     </Suspense>
   )
 }
-
-export default RefreshTokenPage

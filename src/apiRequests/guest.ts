@@ -1,6 +1,5 @@
 import http from '@/lib/http'
 import {
-  LogoutBodyType,
   RefreshTokenBodyType,
   RefreshTokenResType
 } from '@/schemaValidations/auth.schema'

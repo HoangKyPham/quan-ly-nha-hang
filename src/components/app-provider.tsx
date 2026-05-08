@@ -24,7 +24,7 @@ const queryClient = new QueryClient({
 const AppContext = createContext({
   isAuth: false,
   role: undefined as RoleType | undefined,
-  setRole: () => {},
+  setRole: () => {}
 });
 export const useAppContext = () => {
   return useContext(AppContext);
@@ -35,10 +35,10 @@ export default function AppProvider({
   children: React.ReactNode;
 }) {
   const [role, setRoleState] = useState<RoleType | undefined>(() => {
-    const accessToken = getAccessTokenFromLocalStorage();
-    if (!accessToken) return undefined;
-    return decodeToken(accessToken).role;
-  });
+    const accessToken = getAccessTokenFromLocalStorage()
+    if (!accessToken) return undefined
+    return decodeToken(accessToken).role
+  })
 
   const setRole = useCallback((role?: RoleType | undefined) => {
     setRoleState(role);

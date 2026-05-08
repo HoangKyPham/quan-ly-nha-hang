@@ -8,4 +8,15 @@ export const useGuestLoginMutation = () => {
 }
 
 
+export const useGuestOrderMutation = () => {
+  return useMutation({
+    mutationFn: guestApiRequest.order
+  })
+}
 
+export const useGuestGetOrderListQuery = () => {
+  return useQuery({
+    queryFn: guestApiRequest.getOrderList,
+    queryKey: ['guest-orders']
+  })
+}
