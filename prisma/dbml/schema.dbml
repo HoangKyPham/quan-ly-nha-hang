@@ -14,6 +14,7 @@ Table Account {
   owner Account
   ownerId Int
   refreshToken RefreshToken [not null]
+  sockets Socket [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
 }
@@ -87,8 +88,17 @@ Table Guest {
   orders Order [not null]
   refreshToken String
   refreshTokenExpiresAt DateTime
+  sockets Socket [not null]
   createdAt DateTime [default: `now()`, not null]
   updatedAt DateTime [not null]
+}
+
+Table Socket {
+  socketId String [pk]
+  accountId Int [unique]
+  account Account
+  guestId Int [unique]
+  guest Guest
 }
 
 Ref: Account.ownerId > Account.id
@@ -106,3 +116,7 @@ Ref: Order.orderHandlerId > Account.id [delete: Set Null]
 Ref: RefreshToken.accountId > Account.id [delete: Cascade]
 
 Ref: Guest.tableNumber > Table.number [delete: Set Null]
+
+Ref: Socket.accountId > Account.id [delete: Set Null]
+
+Ref: Socket.guestId > Guest.id [delete: Set Null]

@@ -11,7 +11,6 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
 }
 
 
@@ -27,6 +26,7 @@ model Account {
   owner        Account?       @relation("OwnerEmployee", fields: [ownerId], references: [id], onDelete: SetNull, onUpdate: NoAction)
   ownerId      Int?
   refreshToken RefreshToken[]
+  sockets      Socket[]
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
 }
@@ -74,7 +74,7 @@ model Order {
   guest          Guest?       @relation(fields: [guestId], references: [id], onDelete: SetNull, onUpdate: NoAction)
   table          Table?       @relation(fields: [tableNumber], references: [number], onDelete: SetNull, onUpdate: NoAction)
   tableNumber    Int?
-  dishSnapshot   DishSnapshot @relation(fields: [dishSnapshotId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  dishSnapshot   DishSnapshot @relation(fields: [dishSnapshotId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   dishSnapshotId Int          @unique
   quantity       Int
   orderHandler   Account?     @relation(fields: [orderHandlerId], references: [id], onDelete: SetNull, onUpdate: NoAction)
@@ -100,6 +100,15 @@ model Guest {
   orders                Order[]
   refreshToken          String?
   refreshTokenExpiresAt DateTime?
+  sockets               Socket[]
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
+}
+
+model Socket {
+  socketId  String   @id
+  accountId Int?     @unique
+  account   Account? @relation(fields: [accountId], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  guestId   Int?     @unique
+  guest     Guest?   @relation(fields: [guestId], references: [id], onDelete: SetNull, onUpdate: NoAction)
 }
