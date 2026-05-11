@@ -5,7 +5,7 @@ import { RoleType, TokenPayload } from "@/types/jwt.types.js";
 import { comparePassword } from "@/utils/crypto.js";
 import { parseDuration } from "@/utils/duration.js";
 import { AuthError, EntityError } from "@/utils/errors.js";
-import { signAccessToken, signRefreshToken, verifyAccessToken } from "@/utils/jwt.js";
+import { signAccessToken, signRefreshToken, verifyAccessToken, verifyRefreshToken } from "@/utils/jwt.js";
 import { addMilliseconds } from "date-fns";
 
 export const LoginController = async (body: LoginBodyType) => {
@@ -68,7 +68,7 @@ export const logoutController = async (refreshToken: string) => {
 export const refreshTokenController = async (refreshToken: string) => {
   let decodedToken : TokenPayload
   try {
-    decodedToken = verifyAccessToken(refreshToken)
+    decodedToken = verifyRefreshToken(refreshToken)
   } catch (error) {
     throw new AuthError("Refresh token không hợp lệ hoặc đã hết hạn")
   }
