@@ -5,6 +5,14 @@ export const TokenType = {
   TableToken: 'TableToken'
 } as const
 
+export const Role = {
+  Owner: 'Owner',
+  Employee: 'Employee',
+  Guest: 'Guest'
+} as const
+
+export const RoleValues = [Role.Owner, Role.Employee, Role.Guest] as const
+
 export const DishStatus = {
   Available: 'Available',
   Unavailable: 'Unavailable',
@@ -29,14 +37,6 @@ export const TableStatusValues = [
   TableStatus.Reserved
 ] as const
 
-export const Role = {
-    Owner : "Owner",
-    Employee : "Employee",
-    Guest: 'Guest'
-} as const 
-
-export const RoleValues = [Role.Owner, Role.Employee] as const 
-
 export const OrderStatus = {
   Pending: 'Pending',
   Processing: 'Processing',
@@ -52,3 +52,5 @@ export const OrderStatusValues = [
   OrderStatus.Delivered,
   OrderStatus.Paid
 ] as const
+
+export const ManagerRoom = 'manager' as const

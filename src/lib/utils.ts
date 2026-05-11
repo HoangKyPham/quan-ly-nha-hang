@@ -94,6 +94,7 @@ export const checkAndRefreshToken = async (param?: {
   ) {
     // Gọi API refresh token
     try {
+      console.log("Refreshing token...")
       const role = decodedRefreshToken.role;
       const res =
         role === Role.Guest

@@ -24,7 +24,7 @@ const queryClient = new QueryClient({
 const AppContext = createContext({
   isAuth: false,
   role: undefined as RoleType | undefined,
-  setRole: () => {}
+  setRole: (role?: RoleType | undefined) => {}
 });
 export const useAppContext = () => {
   return useContext(AppContext);
