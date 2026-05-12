@@ -1,4 +1,5 @@
 import { RoleValues } from '@/constants/type.js'
+import { OrderSchema } from '@/schemaValidations/order.schema.js'
 // import { OrderSchema } from '@/schemaValidations/order.schema'
 import z from 'zod'
 
@@ -30,22 +31,22 @@ export const GuestLoginRes = z.object({
 
 export type GuestLoginResType = z.TypeOf<typeof GuestLoginRes>
 
-// export const GuestCreateOrdersBody = z.array(
-//   z.object({
-//     dishId: z.number(),
-//     quantity: z.number()
-//   })
-// )
+export const GuestCreateOrdersBody = z.array(
+  z.object({
+    dishId: z.number(),
+    quantity: z.number()
+  })
+)
 
-// export type GuestCreateOrdersBodyType = z.TypeOf<typeof GuestCreateOrdersBody>
+export type GuestCreateOrdersBodyType = z.TypeOf<typeof GuestCreateOrdersBody>
 
-// export const GuestCreateOrdersRes = z.object({
-//   message: z.string(),
-//   data: z.array(OrderSchema)
-// })
+export const GuestCreateOrdersRes = z.object({
+  message: z.string(),
+  data: z.array(OrderSchema)
+})
 
-// export type GuestCreateOrdersResType = z.TypeOf<typeof GuestCreateOrdersRes>
+export type GuestCreateOrdersResType = z.TypeOf<typeof GuestCreateOrdersRes>
 
-// export const GuestGetOrdersRes = GuestCreateOrdersRes
+export const GuestGetOrdersRes = GuestCreateOrdersRes
 
-// export type GuestGetOrdersResType = z.TypeOf<typeof GuestGetOrdersRes>
+export type GuestGetOrdersResType = z.TypeOf<typeof GuestGetOrdersRes>

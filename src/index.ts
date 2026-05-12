@@ -20,7 +20,7 @@ import staticRoutes from "@/routes/static.route.js";
 import orderRoutes from "@/routes/order.route.js";
 
 const fastify = Fastify({
-  logger: false,
+  logger: true,
 });
 
 //run server
