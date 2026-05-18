@@ -17,6 +17,12 @@ import queryString from "query-string";
 const prefix = "/accounts";
 const accountApiRequest = {
   me: () => http.get<AccountResType>(`${prefix}/me`),
+   sMe: (accessToken: string) =>
+    http.get<AccountResType>(`${prefix}/me`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    }),
   list: () => http.get<AccountListResType>(`${prefix}`),
   updateMe: (body: UpdateMeBodyType) =>
     http.put<AccountResType>(`${prefix}/me`, body),

@@ -56,7 +56,7 @@ export default function LoginForm() {
   }
 
   return (
-    <Card className='mx-auto max-w-sm'>
+    <Card className='w-full mx-auto max-w-sm'>
       <CardHeader>
         <CardTitle className='text-2xl'>Đăng nhập</CardTitle>
         <CardDescription>
@@ -114,9 +114,6 @@ export default function LoginForm() {
               />
               <Button type='submit' className='w-full'>
                 Đăng nhập
-              </Button>
-              <Button variant='outline' className='w-full' type='button'>
-                Đăng nhập bằng Google
               </Button>
             </div>
           </form>
