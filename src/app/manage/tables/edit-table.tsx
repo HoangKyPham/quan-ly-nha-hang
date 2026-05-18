@@ -155,6 +155,9 @@ export default function EditTable({
                           className="w-full"
                           {...field}
                           type="number"
+                          value={
+                            (field.value as number | string | undefined) ?? ""
+                          }
                         />
                         <FormMessage />
                       </div>
